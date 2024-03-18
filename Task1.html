@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    #result {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+    #error {
+        color: red;
+    }
+</style>
+</head>
+<body>
+<h1>Age Calculator</h1>
+<form id="ageForm">
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" required>
+    <br>
+    <span id="error"></span>
+    <br>
+    <button type="submit">Calculate Age</button>
+</form>
+<div id="result"></div>
+
+<script>
+document.getElementById('ageForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var dobInput = document.getElementById('dob').value;
+    var dob = new Date(dobInput);
+    var today = new Date();
+    
+    if (dob > today) {
+        document.getElementById('error').innerHTML = "Invalid date";
+        document.getElementById('result').innerHTML = "";
+    } else {
+        document.getElementById('error').innerHTML = "";
+        
+        var years = today.getFullYear() - dob.getFullYear();
+        var months = today.getMonth() - dob.getMonth();
+        var days = today.getDate() - dob.getDate();
+        
+        if (months < 0 || (months === 0 && today.getDate() < dob.getDate())) {
+            years--;
+            months += 12;
+        }
+        if (days < 0) {
+            months--;
+            days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+        }
+        
+        document.getElementById('result').innerHTML = "Your age is: " + years + " years, " + months + " months, and " + days + " days";
+    }
+});
+</script>
+</body>
+</html>
